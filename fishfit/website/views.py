@@ -6,7 +6,8 @@ import os
 from ultralytics import YOLO
 import cv2
 import numpy as np
-
+from sklearn.model_selection import train_test_split
+from tensorflow.keras import layers, models
 
 
 model = YOLO("./media/best.pt")
@@ -201,3 +202,81 @@ def tracek(cap):
         #     return render(request,"watch.html")
 
         # else:
+
+
+# Behavioral Analysis part
+image_height, image_width = 64, 64
+
+def load_data(folder_path):
+    X = []
+    y = []
+    for label, subfolder in enumerate(['normal', 'abnormal']):
+        subfolder_path = os.path.join(folder_path, subfolder)
+        for image_filename in os.listdir(subfolder_path):
+            image_path = os.path.join(subfolder_path, image_filename)
+            image = cv2.imread(image_path)
+            image = cv2.resize(image, (image_height, image_width))
+            image = image.astype('float32') / 255.0  # Normalize pixel values
+            X.append(image)
+            y.append(label)
+    return np.array(X), np.array(y)
+
+dataset_path = 'dataset'
+X, y = load_data(dataset_path)
+
+# Step 3: Split Data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
+
+model = models.Sequential([
+    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(image_height, image_width, 3)),
+    layers.MaxPooling2D((2, 2)),
+    layers.Conv2D(64, (3, 3), activation='relu'),
+    layers.MaxPooling2D((2, 2)),
+    layers.Conv2D(128, (3, 3), activation='relu'),
+    layers.MaxPooling2D((2, 2)),
+    layers.Flatten(),
+    layers.Dense(128, activation='relu'),
+    layers.Dense(1, activation='sigmoid')
+])
+
+model.compile(optimizer='adam',
+              loss='binary_crossentropy',
+              metrics=['accuracy'])
+
+# Step 6: Train Model
+model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test))
+
+test_loss, test_accuracy = model.evaluate(X_test, y_test)
+print('Test accuracy:', test_accuracy)
+
+sample_image = 'abnormal10_600_2.png'
+
+# Load the image
+image = cv2.imread(sample_image)
+
+# Check if the image is loaded successfully
+if image is None:
+    print(f"Failed to load {sample_image}")
+else:
+    # Resize the image
+    image = cv2.resize(image, (image_height, image_width))
+
+    # Check if the image is resized successfully
+    if image is None:
+        print(f"Failed to resize {sample_image}")
+    else:
+        # Normalize pixel values
+        image = image.astype('float32') / 255.0
+
+        # Add batch dimension
+        image = np.expand_dims(image, axis=0)
+
+        # Make prediction
+        prediction = model.predict(image)
+
+        # Print prediction
+        if prediction[0][0] > 0.5:
+            print(sample_image, 'is ABNORMAL')
+        else:
+            print(sample_image, 'is NORMAL')
+
