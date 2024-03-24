@@ -7,7 +7,13 @@ from ultralytics import YOLO
 import cv2
 import numpy as np
 from sklearn.model_selection import train_test_split
-from tensorflow.keras import layers, models
+import shutil
+# from tensorflow.keras import layers, models
+from django.core.files.storage import default_storage
+from django.core.files.base import ContentFile
+from django.core.files.storage import FileSystemStorage
+
+
 
 
 model = YOLO("./media/best.pt")
@@ -31,62 +37,57 @@ def contact(request):
 def contact(request):
     return render(request,'contact.html',{})
 
-def tracke(request):
-    if request.method == 'POST' and request.FILES.get('horses'):
-        video_obj = request.FILES['horses']
-        vid_path = video_obj.temporary_file_path()
-        clip = VideoFileClip(vid_path)
-        duration = clip.duration
-        num_parts = int(duration // 10)
-        print(duration)
-        for i in range(num_parts):
-            start_time = i * 10
-            end_time = (i + 1) * 10
-            part_clip = clip.subclip(start_time, end_time)
-            tracek(part_clip)
-            print(start_time,end_time)
-            part_clip.close()
-        if end_time<duration:
-            part_clip = clip.subclip(end_time, duration)
-            tracek(part_clip)
-            part_clip.close()
-        return render(request, 'watch.html')
-    else:
-        return render(request, 'watch.html')
+
 
 def track(request):
     video_obj = request.FILES['horses']
-    vid_path = video_obj.temporary_file_path()
-    cap = cv2.VideoCapture(vid_path)
-    fps = cap.get(cv2.CAP_PROP_FPS)
-
-
-    # Calculate the number of frames for a 10-second clip
-    num_frames_per_clip = int(fps * 10)
-    frame_count = 0
-    clip_index = 0
-    clips = []
-    # Loop through the frames
-    while True:
-        ret, frame = cap.read()
-        if not ret:
-            break
-        # If it's the first frame of a new clip, create a new list for frames
-        if frame_count % num_frames_per_clip == 0:
-            clip_index += 1
-            clips.append([])
-        # Append the frame to the current clip's list
-        clips[clip_index - 1].append(frame)
-        frame_count += 1
-    # Release the video capture and close any remaining video writers
-    cap.release()
-    cv2.destroyAllWindows()
-
-    for clip in clips:
-        tracek(clip)
+    location = save_video(video_obj)
+    split_video(location)
     return render(request, "watch.html")
     
+  
+def save_video(video):
+    os.mkdir("media/video")
+    fs = FileSystemStorage()
+    saveLocation = "video/"+ video.name 
+    file = fs.save(saveLocation, video)
+    path = "./media/" + file 
+    return path
 
+   
+def split_video(input_video):
+    os.mkdir("media/segments")
+    end_time = 0
+    i=0
+    output_directory = "media/segments"
+    clip = VideoFileClip(input_video)
+    duration = clip.duration
+    num_parts = int(duration // 10)
+    print (duration)
+    i=0
+    for i in range(num_parts):
+        start_time = i * 10
+        end_time = (i + 1) * 10
+        output_path = f"{output_directory}/seg_{i + 1}.mp4"
+        segNum = "seg_" + str(i+1) + ".mp4"
+        part_clip = clip.subclip(start_time, end_time)
+        part_clip_without_audio = part_clip.without_audio()  # Remove audio
+        part_clip_without_audio.write_videofile(output_path)
+        part_clip.close()
+    if end_time<duration:
+        output_path = f"{output_directory}/seg_{i + 2}.mp4"
+        part_clip = clip.subclip(end_time, duration)
+        part_clip_without_audio = part_clip.without_audio()  # Remove audio
+        part_clip_without_audio.write_videofile(output_path)
+        part_clip.close()
+        
+    # for j in range(num_parts + 1):
+    #     print(f"segments/segNum_{j+1}.mp4")
+    #     results = model.track(source=f"segments/seg_{j+1}.mp4", tracker="bytetrack.yaml",show=True) 
+    #     cv2.destroyAllWindows()
+        
+    shutil.rmtree("media/video")
+    
 def tracek(cap):
     # clip_path = clip.temporary_file_path()
     # cap = cv2.VideoCapture(clip_path)
@@ -116,12 +117,8 @@ def tracek(cap):
 
 
 
-  
-
-
-
 # def track(request):
-#     if request.method == 'POST':
+#     if request.method == 'POST':  
 #             video_obj = request.FILES['horses']
 #             vid_path = video_obj.temporary_file_path()
 #             cap = cv2.VideoCapture(vid_path)
@@ -204,79 +201,79 @@ def tracek(cap):
         # else:
 
 
-# Behavioral Analysis part
-image_height, image_width = 64, 64
+# # Behavioral Analysis part
+# image_height, image_width = 64, 64
 
-def load_data(folder_path):
-    X = []
-    y = []
-    for label, subfolder in enumerate(['normal', 'abnormal']):
-        subfolder_path = os.path.join(folder_path, subfolder)
-        for image_filename in os.listdir(subfolder_path):
-            image_path = os.path.join(subfolder_path, image_filename)
-            image = cv2.imread(image_path)
-            image = cv2.resize(image, (image_height, image_width))
-            image = image.astype('float32') / 255.0  # Normalize pixel values
-            X.append(image)
-            y.append(label)
-    return np.array(X), np.array(y)
+# def load_data(folder_path):
+#     X = []
+#     y = []
+#     for label, subfolder in enumerate(['normal', 'abnormal']):
+#         subfolder_path = os.path.join(folder_path, subfolder)
+#         for image_filename in os.listdir(subfolder_path):
+#             image_path = os.path.join(subfolder_path, image_filename)
+#             image = cv2.imread(image_path)
+#             image = cv2.resize(image, (image_height, image_width))
+#             image = image.astype('float32') / 255.0  # Normalize pixel values
+#             X.append(image)
+#             y.append(label)
+#     return np.array(X), np.array(y)
 
-dataset_path = 'dataset'
-X, y = load_data(dataset_path)
+# dataset_path = 'dataset'
+# X, y = load_data(dataset_path)
 
-# Step 3: Split Data
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
+# # Step 3: Split Data
+# X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=42)
 
-model = models.Sequential([
-    layers.Conv2D(32, (3, 3), activation='relu', input_shape=(image_height, image_width, 3)),
-    layers.MaxPooling2D((2, 2)),
-    layers.Conv2D(64, (3, 3), activation='relu'),
-    layers.MaxPooling2D((2, 2)),
-    layers.Conv2D(128, (3, 3), activation='relu'),
-    layers.MaxPooling2D((2, 2)),
-    layers.Flatten(),
-    layers.Dense(128, activation='relu'),
-    layers.Dense(1, activation='sigmoid')
-])
+# model = models.Sequential([
+#     layers.Conv2D(32, (3, 3), activation='relu', input_shape=(image_height, image_width, 3)),
+#     layers.MaxPooling2D((2, 2)),
+#     layers.Conv2D(64, (3, 3), activation='relu'),
+#     layers.MaxPooling2D((2, 2)),
+#     layers.Conv2D(128, (3, 3), activation='relu'),
+#     layers.MaxPooling2D((2, 2)),
+#     layers.Flatten(),
+#     layers.Dense(128, activation='relu'),
+#     layers.Dense(1, activation='sigmoid')
+# ])
 
-model.compile(optimizer='adam',
-              loss='binary_crossentropy',
-              metrics=['accuracy'])
+# model.compile(optimizer='adam',
+#               loss='binary_crossentropy',
+#               metrics=['accuracy'])
 
-# Step 6: Train Model
-model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test))
+# # Step 6: Train Model
+# model.fit(X_train, y_train, epochs=10, batch_size=32, validation_data=(X_test, y_test))
 
-test_loss, test_accuracy = model.evaluate(X_test, y_test)
-print('Test accuracy:', test_accuracy)
+# test_loss, test_accuracy = model.evaluate(X_test, y_test)
+# print('Test accuracy:', test_accuracy)
 
-sample_image = 'abnormal10_600_2.png'
+# sample_image = 'abnormal10_600_2.png'
 
-# Load the image
-image = cv2.imread(sample_image)
+# # Load the image
+# image = cv2.imread(sample_image)
 
-# Check if the image is loaded successfully
-if image is None:
-    print(f"Failed to load {sample_image}")
-else:
-    # Resize the image
-    image = cv2.resize(image, (image_height, image_width))
+# # Check if the image is loaded successfully
+# if image is None:
+#     print(f"Failed to load {sample_image}")
+# else:
+#     # Resize the image
+#     image = cv2.resize(image, (image_height, image_width))
 
-    # Check if the image is resized successfully
-    if image is None:
-        print(f"Failed to resize {sample_image}")
-    else:
-        # Normalize pixel values
-        image = image.astype('float32') / 255.0
+#     # Check if the image is resized successfully
+#     if image is None:
+#         print(f"Failed to resize {sample_image}")
+#     else:
+#         # Normalize pixel values
+#         image = image.astype('float32') / 255.0
 
-        # Add batch dimension
-        image = np.expand_dims(image, axis=0)
+#         # Add batch dimension
+#         image = np.expand_dims(image, axis=0)
 
-        # Make prediction
-        prediction = model.predict(image)
+#         # Make prediction
+#         prediction = model.predict(image)
 
-        # Print prediction
-        if prediction[0][0] > 0.5:
-            print(sample_image, 'is ABNORMAL')
-        else:
-            print(sample_image, 'is NORMAL')
+#         # Print prediction
+#         if prediction[0][0] > 0.5:
+#             print(sample_image, 'is ABNORMAL')
+#         else:
+#             print(sample_image, 'is NORMAL')
 

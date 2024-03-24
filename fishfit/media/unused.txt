@@ -1,0 +1,22 @@
+def tracke(request):
+    if request.method == 'POST' and request.FILES.get('horses'):
+        video_obj = request.FILES['horses']
+        vid_path = video_obj.temporary_file_path()
+        clip = VideoFileClip(vid_path)
+        duration = clip.duration
+        num_parts = int(duration // 10)
+        print(duration)
+        for i in range(num_parts):
+            start_time = i * 10
+            end_time = (i + 1) * 10
+            part_clip = clip.subclip(start_time, end_time)
+            tracek(part_clip)
+            print(start_time,end_time)
+            part_clip.close()
+        if end_time<duration:
+            part_clip = clip.subclip(end_time, duration)
+            tracek(part_clip)
+            part_clip.close()
+        return render(request, 'watch.html')
+    else:
+        return render(request, 'watch.html')

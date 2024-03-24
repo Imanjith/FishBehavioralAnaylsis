@@ -106,20 +106,11 @@
                      <br> {% endcomment %}
                      <form action="track" method="post" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <input type="file" id="video-input" name="horses">
+                        <input type="file" id="video-input" name="horses" accept=".mp4">
                         <input type="submit">
                     </form>
 
 
-                     {% comment %} <form action="karapan">
-                        Enter nama <input type="text" name="username"><br>
-                        <input type=submit>
-                     </form> {% endcomment %}
-
-
-
-
-                     {% comment %} <iframe width="560" height="315" src="{{ outputvideo }}" frameborder="0"  name="outputvideo" allowfullscreen></iframe> {% endcomment %}
                   </div>
                </div>
                <div class="col-md-6">
