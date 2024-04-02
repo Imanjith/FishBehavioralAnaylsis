@@ -9,7 +9,6 @@ urlpatterns = [
     path('contact.html', views.contact, name="contact"),
     path('watch.html', views.watch, name="watch"),
     path('track', views.track, name="func"),
-    path('fishs.html', views.fishs, name="fish"),
 
 
 ]
