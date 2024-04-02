@@ -37,6 +37,9 @@ def contact(request):
 def contact(request):
     return render(request,'contact.html',{})
 
+def fishs(request):
+    return render(request,'fishs.html',{})
+
 
 
 def track(request):
