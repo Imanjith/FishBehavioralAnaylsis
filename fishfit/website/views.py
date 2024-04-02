@@ -36,23 +36,25 @@ def blog(request):
 def contact(request):
     return render(request,'contact.html',{})
 
-def contact(request):
-    return render(request,'contact.html',{})
+def fishs(request):
+    return render(request,'fishs.html',{})
+
+
 
 
 
 def track(request):
-    video_obj = request.FILES['horses']
-    location = save_video(video_obj)
-    enhance_video(location)
-    clip = VideoFileClip(location)
-    duration = clip.duration
-    num_parts=0
-    if duration>10:
-        num_parts = split_video(location)
-    track_video(num_parts)
-    analyse()
-    return render(request, "watch.html")
+    # video_obj = request.FILES['horses']
+    # location = save_video(video_obj)
+    # enhance_video(location)
+    # clip = VideoFileClip(location)
+    # duration = clip.duration
+    # num_parts=0
+    # if duration>10:
+    #     num_parts = split_video(location)
+    # track_video(num_parts)
+    results = analyse()
+    return render(request, "results.html", {'price': results})
     
     
 
@@ -297,12 +299,14 @@ def track_video(num):
     
     
 def analyse(num=4):
+    normal_count = 0
+    abnormal_count = 0
     
     for j in range(num + 1):
         image_height, image_width = 64, 64
         model = models.load_model('media/analysis.keras')
 
-        sample_image = f"media/movements/seg_{j+1}.mp4"
+        sample_image = f"media/movements/seg_{j+1}.png"
 
         # Load the image
         image = cv2.imread(sample_image)
@@ -330,8 +334,15 @@ def analyse(num=4):
                 # Print prediction
                 if prediction[0][0] > 0.5:
                     print(sample_image, 'is ABNORMAL')
+                    abnormal_count+=1
                 else:
                     print(sample_image, 'is NORMAL')
+                    normal_count+=1
+                    
+                    
+    results = [abnormal_count,normal_count]
+    print(results)
+    return results
 
 
     
