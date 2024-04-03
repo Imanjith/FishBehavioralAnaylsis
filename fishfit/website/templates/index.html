@@ -22,7 +22,7 @@
       <!-- Responsive-->
       <link rel="stylesheet" href=" {% static 'website/css/responsive.css' %} ">
       <!-- fevicon -->
-      <link rel="icon" href=" {% static 'website/webApplication%20Files/images/fevicon.png' %} " type="image/gif" />
+      <link rel="icon" href=" {% static 'website/images/fevicon.png' %} " type="image/gif" />
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -35,7 +35,7 @@
    <body class="main-layout">
       <!-- loader  -->
       <div class="loader_bg">
-         <div class="loader"><img src="webApplication%20Files/images/loading.gif" alt="#"/></div>
+         <div class="loader"><img src="{% static 'website/images/loading.gif' %}" alt="#"/></div>
       </div>
       <!-- end loader -->
       <!-- header -->
@@ -46,7 +46,7 @@
                   <div class="full">
                      <div class="center-desk">
                         <div class="logo">
-                           <a href="index.html"><img src="webApplication%20Files/images/logo.png" alt="#" /></a>
+                           <a href="index.html"><img src="'{% static 'website/images/logo.png' %}" alt="#" /></a>
                         </div>
                      </div>
                   </div>
