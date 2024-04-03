@@ -42,7 +42,7 @@ def fishs(request):
 def fishs(request):
     return render(request,'fishs.html',{})
     
-def testimonial(request):
+def testi(request):
     return render(request,'testimonial.html',{})
 
 

@@ -1,5 +1,4 @@
 {% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -16,6 +15,7 @@
       <meta name="author" content="">
       <!-- bootstrap css -->
       <link rel="stylesheet" href=" {% static 'website/css/bootstrap.min.css' %} ">
+      <link rel="stylesheet" href=" {% static 'website/css/bootstrap.css' %} ">
       <!-- style css -->
       <link rel="stylesheet" href=" {% static 'website/css/style.css' %} ">
       <!-- Responsive-->
@@ -45,7 +45,7 @@
                   <div class="full">
                      <div class="center-desk">
                         <div class="logo">
-                           <a href="index.html"><img src="'{% static 'website/images/logo.png' %}" alt="#" /></a>
+                           <a href=" index.html"><img src=" {% static 'website/images/logo.png' %} " alt="Logo" /></a>
                         </div>
                      </div>
                   </div>
@@ -61,19 +61,18 @@
                               <a class="nav-link" href="index.html"><b>Home</b></a>
                            </li>
                            <li class="nav-item">
-                              <a class="nav-link" href="about.html">About</a>
+                              <a class="nav-link" href="about.html" ><b>About</b></a>
+                           <li class="nav-item">
+                              <a class="nav-link" href="fishs.html"><b>Fishs</b></a>
                            </li>
                            <li class="nav-item">
-                              <a class="nav-link" href="fishs.html">Fishs</a>
+                              <a class="nav-link" href="blog.html"><b>Blog</b></a>
                            </li>
                            <li class="nav-item">
-                              <a class="nav-link" href="blog.html">Blog</a>
+                              <a class="nav-link" href="testimonial.html"><b>Testimonial</b></a>
                            </li>
                            <li class="nav-item">
-                              <a class="nav-link" href="testimonial.html">Testimonial</a>
-                           </li>
-                           <li class="nav-item">
-                              <a class="nav-link" href="contact.html">contact us</a>
+                              <a class="nav-link" href="contact.html"><b>contact us</b></a>
                            </li>
                         </ul>
                      </div>
@@ -81,16 +80,13 @@
                </div>
                <div class="col-md-2 d_none">
                   <ul class="email text_align_right">
-                     <li><a href="Javascript:void(0)">Login <img src="'{% static 'website/images/use.png'}" alt="#"/></a></li>
-                     <!-- <li><a href="Javascript:void(0)"><img src="images/sho.png" alt="#"/></a></li>
-                     <li><a href="Javascript:void(0)"><img src="images/sea.png" alt="#"/></a></li> -->
-                  </ul>
+                     <li><a href=" {% static 'website/Javascript:void(0)' %} "><b>Login</b> <img src=" {% static 'website/images/use.png' %} " alt="#"/></a></li>
+                 </ul>
                </div>
             </div>
          </div>
       </div>
       <!-- end header inner -->
-      <!-- end header -->
       <!-- top -->
       <div class="full_bg">
          <div class="slider_main">
@@ -114,13 +110,13 @@
                                           <h1>Let's Check Your Fish</h1>
                                           <p>A lot of industries that are relative to aquaculture have a major problem of finding unhealthy products among a huge amount of farms. This app will ease the difficulty of finding unhealthy fishs from huge amount of fish farms.</p>
                                           <!-- href used to be Javascript:void(0) -->
-                                          <a class="read_more" href="contact.html"><b>Check</b></a> 
+                                          <a class="read_more" href="watch.html"><b>Check</b></a> 
                                        </div>
                                        
                                     </div>
                                     <div class="col-md-4">
                                        <div class="every_img">
-                                          <figure><img src="{% 'staticwebsite/images/banner_img.png' } " alt="#"/></figure>
+                                          <figure><img src="{% static 'website/images/banner_img.png' %} " alt="Banner"/></figure>
                                        </div>
                                     </div>
                                  </div>
@@ -135,14 +131,15 @@
       </div>
 
       <!-- Javascript files-->
-      <script src="js/jquery.min.js"></script>
-      <script src="js/bootstrap.bundle.min.js"></script>
-      <script src="js/jquery-3.0.0.min.js"></script>
-      <script src="js/jquery.nice-select.min.js"></script>
+      <!-- Javascript files-->
+      <script src=" {% static 'website/js/jquery.min.js' %} "></script>
+      <script src=" {% static 'website/js/bootstrap.bundle.min.js' %} "></script>
+      <script src=" {% static 'website/js/jquery-3.0.0.min.js' %} "></script>
+      <script src=" {% static 'website/js/jquery.nice-select.min.js' %} "></script>
       <!-- sidebar -->
       <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-      <script src="js/owl.carousel.min.js"></script>
-      <script src="js/custom.js"></script>
+      <script src=" {% static 'website/js/owl.carousel.min.js' %} "></script>
+      <script src=" {% static 'website/js/custom.js' %} "></script>
       <script>  AOS.init();</script>
    </body>
 </html>
