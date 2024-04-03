@@ -39,10 +39,11 @@ def contact(request):
 def fishs(request):
     return render(request,'fishs.html',{})
 
-
-
 def fishs(request):
     return render(request,'fishs.html',{})
+    
+def testimonial(request):
+    return render(request,'testimonial.html',{})
 
 
 

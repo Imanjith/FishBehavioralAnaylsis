@@ -1,4 +1,5 @@
 {% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
    <head>
@@ -9,20 +10,18 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>fallon</title>
+      <title>About us</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
       <!-- bootstrap css -->
-      <link rel="stylesheet" href="{% static 'website/css/bootstrap.min.css' %}">
       <link rel="stylesheet" href=" {% static 'website/css/bootstrap.min.css' %} ">
-
       <!-- style css -->
       <link rel="stylesheet" href=" {% static 'website/css/style.css' %} ">
       <!-- Responsive-->
       <link rel="stylesheet" href=" {% static 'website/css/responsive.css' %} ">
       <!-- fevicon -->
-      <link rel="icon" href=" {% static 'website/images/fevicon.png' %} " type="image/gif" />
+      <link rel="icon" href=" {% static 'website/webApplication%20Files/images/fevicon.png' %} " type="image/gif" />
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
       <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -35,7 +34,7 @@
    <body class="main-layout">
       <!-- loader  -->
       <div class="loader_bg">
-         <div class="loader"><img src="{% static 'website/images/loading.gif' %}" alt="#"/></div>
+         <div class="loader"><img src=" {% static 'website/images/loading.gif' %} " alt="Loading"/></div>
       </div>
       <!-- end loader -->
       <!-- header -->
@@ -82,7 +81,7 @@
                </div>
                <div class="col-md-2 d_none">
                   <ul class="email text_align_right">
-                     <li><a href="Javascript:void(0)">Login <img src="webApplication%20Files/images/use.png" alt="#"/></a></li>
+                     <li><a href="Javascript:void(0)">Login <img src="'{% static 'website/images/use.png'}" alt="#"/></a></li>
                      <!-- <li><a href="Javascript:void(0)"><img src="images/sho.png" alt="#"/></a></li>
                      <li><a href="Javascript:void(0)"><img src="images/sea.png" alt="#"/></a></li> -->
                   </ul>
@@ -121,7 +120,7 @@
                                     </div>
                                     <div class="col-md-4">
                                        <div class="every_img">
-                                          <figure><img src="webApplication%20Files/images/banner_img.png" alt="#"/></figure>
+                                          <figure><img src="{% 'staticwebsite/images/banner_img.png' } " alt="#"/></figure>
                                        </div>
                                     </div>
                                  </div>
