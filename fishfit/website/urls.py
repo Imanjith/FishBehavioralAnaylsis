@@ -10,7 +10,7 @@ urlpatterns = [
     path('watch.html', views.watch, name="watch"),
     path('track', views.track, name="func"),
     path('fishs.html',views.fishs, name="fishs"),
-    path('testimonial.html',views.testi, name="testimoanial"),
+    path('testimonial.html',views.testi, name="testimonial"),
 
 
 ]

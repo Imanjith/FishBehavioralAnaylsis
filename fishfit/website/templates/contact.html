@@ -99,10 +99,11 @@
             </div>
             <div class="row d_flex">
                <div class="col-md-6">
-                  <form id="request" class="main_form"  data-aos="fade-right">
+                  <form id="request" class="main_form"  data-aos="fade-right" onsubmit="sendEmail(); reset(); return false;">
+                     {% csrf_token %}
                      <div class="row">
                         <div class="col-md-12">
-                           <input class="contactus" placeholder="Name " type="text" name="Name "> 
+                           <input class="contactus" placeholder="Name " type="text" name="Name ">  
                         </div>
                         <div class="col-md-12">
                            <input class="contactus" placeholder="Phone " type="text" name="Phone "> 
@@ -114,7 +115,7 @@
                            <textarea style="color: #adafb0;" class="textarea" placeholder="Message" type="text" name="Message"> </textarea>
                         </div>
                         <div class="col-md-12">
-                           <button class="send_btn">Book Now</button>
+                           <button type="submit" class="send_btn">Book Now</button>
                         </div>
                      </div>
                   </form>
@@ -192,8 +193,10 @@
       <script src=" {% static 'website/js/jquery.nice-select.min.js' %} "></script>
       <!-- sidebar -->
       <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+      <script src="https://smtpjs.com/v3/smtp.js"></script>
       <script src=" {% static 'website/js/owl.carousel.min.js' %} "></script>
       <script src=" {% static 'website/js/custom.js' %} "></script>
+      <script src=" {% static 'website/js/mail.js' %} "></script>
       <script>  AOS.init();</script>
    </body>
 </html>
