@@ -15,6 +15,7 @@ from django.core.files.storage import FileSystemStorage
 from collections import defaultdict
 import matplotlib.pyplot as plt
 from tensorflow.keras import layers, models
+from django.core.mail import send_mail
 
 
 
@@ -39,11 +40,26 @@ def contact(request):
 def fishs(request):
     return render(request,'fishs.html',{})
 
-def fishs(request):
-    return render(request,'fishs.html',{})
     
 def testi(request):
     return render(request,'testimonial.html',{})
+
+def sendMail(request,):
+    if request.method == "POST":
+        email = request.POST['email']
+        message = f"Name: {request.POST['name']}\n"
+        message += f"Email: {request.POST['email']}\n"
+        message += f"Phone: {request.POST['phone']}\n"
+        message += f"Message: {request.POST['message']}"
+        
+        send_mail(
+            'Contact Form',
+            message,
+            email,
+            ["mynameisnotnawam@gmail.com"],
+            fail_silently=False)
+    return render(request,'contact.html')
+    
 
 
 

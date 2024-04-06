@@ -99,20 +99,20 @@
             </div>
             <div class="row d_flex">
                <div class="col-md-6">
-                  <form id="request" class="main_form"  data-aos="fade-right" onsubmit="sendEmail(); reset(); return false;">
+                  <form method="POST" id="request" class="main_form"  data-aos="fade-right" action="sendMail" >
                      {% csrf_token %}
                      <div class="row">
                         <div class="col-md-12">
-                           <input class="contactus" placeholder="Name " type="text" name="Name ">  
+                           <input class="contactus" placeholder="Name " type="text" name="name">  
                         </div>
                         <div class="col-md-12">
-                           <input class="contactus" placeholder="Phone " type="text" name="Phone "> 
+                           <input class="contactus" placeholder="Phone " type="text" name="phone"> 
                         </div>
                         <div class="col-md-12">
-                           <input class="contactus" placeholder="Email " type="text" name="Email "> 
+                           <input class="contactus" placeholder="email " type="text" name="email"> 
                         </div>
                         <div class="col-md-12">
-                           <textarea style="color: #adafb0;" class="textarea" placeholder="Message" type="text" name="Message"> </textarea>
+                           <textarea style="color: #adafb0;" class="textarea" placeholder="Message" type="text" name="message"> </textarea>
                         </div>
                         <div class="col-md-12">
                            <button type="submit" class="send_btn">Book Now</button>
