@@ -339,7 +339,7 @@ def track_video(num):
                 # Run YOLOv8 tracking on the frame, persisting tracks between frames
                 results = model.track(frame, persist=True)
                 
-                if results[0].boxes.id==None:
+                if results[0].boxes.id is not None:
                     
 
                     # Get the boxes and track IDs
@@ -369,7 +369,7 @@ def track_video(num):
                     cv2.imshow("YOLOv8 Tracking", annotated_frame)
                 else: 
                     empty_frames+=1
-                    continue
+                    
 
                 # Break the loop if 'q' is pressed
                 if cv2.waitKey(1) & 0xFF == ord("q"):
