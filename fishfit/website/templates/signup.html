@@ -32,29 +32,38 @@
 	<div class="limiter">
 		<div class="container-login100">
 			<div class="wrap-login100">
-				<form class="login100-form validate-form" action="" method="post"> 
+				<form class="login100-form validate-form" action="signup.html" method="post"> {% csrf_token %}
 					  
 					<span class="login100-form-title p-b-34 p-t-27">
 						Signup
 					</span>
 
+					{% for message in messages %}
+					<div class="alert alert-{{message.tags}} alert-dismissible fade show" role="alert">
+						<strong></strong> {{message}}
+						<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+						  <span aria-hidden="true">&times;</span>
+						</button>
+					  </div>
+					{% endfor %}
+					
 					<div class="wrap-input100 validate-input" data-validate = "Enter username">
-						<input class="input100" type="text" name="username" placeholder="Username">
+						<input class="input100" type="text" name="username" placeholder="Username" required>
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
                     <div class="wrap-input100 validate-input" data-validate = "Enter email">
-						<input class="input100" type="email" name="Email" placeholder="Email">
+						<input class="input100" type="email" name="Email" placeholder="Email" required>
 						<span class="focus-input100" data-placeholder="&#xf207;"></span>
 					</div>
 
 					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="pass" placeholder="Enter Password">
+						<input class="input100" type="password" name="pass1" placeholder="Enter Password" required>
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
                     <div class="wrap-input100 validate-input" data-validate="Confirm password">
-						<input class="input100" type="password" name="pass2" placeholder="Confirm Password">
+						<input class="input100" type="password" name="pass2" placeholder="Confirm Password" required>
 						<span class="focus-input100" data-placeholder="&#xf191;"></span>
 					</div>
 
@@ -65,9 +74,8 @@
 					</div>
 
 					<div class="container-login100-form-btn">
-						<button class="login100-form-btn" type="submit"><a href="login.html">
+						<button class="login100-form-btn" type="submit">
 							Signup
-                            </a> 
 						</button>
 
 					</div>

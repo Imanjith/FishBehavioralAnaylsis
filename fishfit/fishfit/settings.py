@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from pathlib import Path
 import os
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -152,3 +153,7 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 52428800
 
 
 FILE_UPLOAD_PERMISSIONS = 0o644
+
+MESSAGE_TAGS={
+    messages.ERROR:'danger'
+}

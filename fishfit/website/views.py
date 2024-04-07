@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from moviepy.editor import VideoFileClip
 from django.http import HttpResponse
 from django.conf import settings
@@ -16,7 +16,10 @@ from collections import defaultdict
 import matplotlib.pyplot as plt
 from tensorflow.keras import layers, models
 from django.core.mail import send_mail
-
+from django.contrib.auth.models import User
+from django.shortcuts import render,HttpResponse
+from django.contrib import messages
+from django.contrib.auth import authenticate,login
 
 
 model = YOLO("yolov8n.pt")
@@ -45,10 +48,61 @@ def testi(request):
     return render(request,'testimonial.html',{})
 
 def handlelogin(request):
+    if request.method == "POST":
+        uname = request.POST.get("username")
+        pass3 = request.POST.get("pass")
+        myuser =authenticate(username=uname, password=pass3)
+        if myuser is not None:
+            login(request,myuser)
+            messages.success(request,"Log-in Success!")
+            return redirect('/')
+        
+        else:
+            messages.error(request,"Invalid credentials!")
+            return redirect('login.html')
+
+
     return render(request,'login.html',{})
 
+
 def handlesignup(request):
+    if request.method == "POST":
+        uname = request.POST.get("username")
+        email = request.POST.get("Email")
+        password = request.POST.get("pass1")
+        confirmpassword = request.POST.get("pass2")
+
+        print(uname, email , password , confirmpassword)
+
+
+        if password != confirmpassword:
+            messages.danger(request,"Password is Incorrect!")
+            return redirect('signup.html')
+        
+        try:
+            if User.objects.get(username== uname):
+                return HttpResponse("Username is taken")
+            
+        except:
+            pass
+
+        try:
+            if User.objects.get(Email== email):
+                return HttpResponse("Email is taken")
+            
+        except:
+            pass
+
+
+        myuser = User.objects.create_user(uname,email,password)
+        myuser.save()
+        
+        messages.info(request,"Singup Success. Please Log in!")
+        return redirect('login.html')
+
+
     return render(request,'signup.html',{})
+
 
 
 def sendMail(request,):
