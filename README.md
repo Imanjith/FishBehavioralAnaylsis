@@ -16,6 +16,9 @@ At first the input video footage is enhanced in quality to help increase the acc
 
 Object detection involves pinpointing and accurately localising specific objects within a video frame allowing for subsequent object tracking within the visual context. This process is conducted with the assistance of the Yolov8 model which is a renowned object detection model known for its high accuracy. 
 
+![image](https://github.com/Imanjith/FishBehavioralAnaylsis/assets/96326008/5442f2e7-9cdc-4312-9515-a6426b0630c0)
+
+
 ## Object Tracking
 
 Object tracking involves an algorithm tracking the movement and attempting to estimate or predict the trajectory of a certain object and other relevant information about the object in a video. This can be found used in detecting and tracking fish to gain an understanding on their health and well-being. The inbuilt tracker in the Yolov8 model known as the Bot-Sort tracker was utilized in this case. The accuracy is known to be one of the highest amongst other models hence was the model of choice for this process
