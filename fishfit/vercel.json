@@ -8,6 +8,13 @@
         {
             "src": "/(.*)",
             "dest": "fishfit/wsgi.py"
+        },
+
+        {
+            "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
         }
     ]
+    
 }
+
+
