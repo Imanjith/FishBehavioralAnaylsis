@@ -279,7 +279,7 @@ def save_video(video):
         shutil.rmtree('media/video')
     os.mkdir("media/video")
     fs = FileSystemStorage()
-    saveLocation = "video/"+ video.name 
+    saveLocation = "video/"+ "video.mp4" 
     file = fs.save(saveLocation, video)
     path = "./media/" + file 
     return path
@@ -323,10 +323,15 @@ def track_video(num):
     if os.path.isdir("media/movements"):
         shutil.rmtree("media/movements")
     os.mkdir("media/movements")
+       
+
     for j in range(num + 1):
         track_history = defaultdict(lambda: [])
         complete_tracks = defaultdict(list)
-        cap = cv2.VideoCapture(f"media/segments/seg_{j+1}.mp4")
+        if num==0:
+            cap = cv2.VideoCapture(f"media/video/video.mp4")
+        else:
+            cap = cv2.VideoCapture(f"media/segments/seg_{j+1}.mp4")
         total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
         empty_frames = 0
     
@@ -381,25 +386,33 @@ def track_video(num):
         cap.release()
         cv2.destroyAllWindows()
         
+
+        
         if empty_frames>(total_frames/1.5):
             continue
-        plt.figure(figsize=(10, 6), facecolor="black")
+        plt.figure(figsize=(10, 5), facecolor="black")
         plt.axis('off')
         trajectories = list(track_history.values())
 
         for trajectory in trajectories:
             x_values, y_values = zip(*trajectory)
-            plt.plot(x_values, y_values)
+            plt.plot(x_values, y_values, linewidth = 3)
+            
+            
 
+        plt.gca().invert_yaxis()  # Invert the y-axis
+        plt.legend()
         plt.title("Object Trajectories")
         plt.savefig(f"media/movements/seg_{j+1}.png")
-        
+    
+    if os.path.isdir("media/segments"):
+        shutil.rmtree("media/segments")
+
     return num
 
 
         
 
-    shutil.rmtree("media/segments")
     
     
 def analyse(num=4):
