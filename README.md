@@ -20,8 +20,7 @@ Object detection involves pinpointing and accurately localising specific objects
 
 Object tracking involves an algorithm tracking the movement and attempting to estimate or predict the trajectory of a certain object and other relevant information about the object in a video. This can be found used in detecting and tracking fish to gain an understanding on their health and well-being. The inbuilt tracker in the Yolov8 model known as the Bot-Sort tracker was utilized in this case. The accuracy is known to be one of the highest amongst other models hence was the model of choice for this process
 
-![image](https://github.com/Imanjith/FishBehavioralAnaylsis/assets/96326008/1ecd29f6-d266-474b-b5c5-b69d8ae526b2)
-
+![image](https://github.com/Imanjith/FishBehavioralAnaylsis/assets/96326008/63816479-6253-464b-9e7a-73df821a3296)
 
 
 ## Behavioural Analysis
@@ -30,6 +29,17 @@ Finally we end with the most important phase, behavioural analysis. The system w
 
 ![image](https://github.com/Imanjith/FishBehavioralAnaylsis/assets/96326008/809a0b05-ba0a-4643-8432-f467f00b0a08)
 
-  
+
+
+# Web Application Interface
+
+We aimed to create a simple and user-friendly design void of any complexity that may confuse the user. 
+
+![image](https://github.com/Imanjith/FishBehavioralAnaylsis/assets/96326008/aae65a71-41cd-435b-9e1f-6289ccd8ec6a)
+
+
+![image](https://github.com/Imanjith/FishBehavioralAnaylsis/assets/96326008/4d29c0be-5f2f-400d-8681-c04f8fe39c9a)
+
+
 
 
