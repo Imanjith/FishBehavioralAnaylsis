@@ -10,7 +10,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1">
       <meta name="viewport" content="initial-scale=1, maximum-scale=1">
       <!-- site metas -->
-      <title>fallon</title>
+      <title>Blog</title>
       <meta name="keywords" content="">
       <meta name="description" content="">
       <meta name="author" content="">
@@ -24,6 +24,7 @@
       <link rel="icon" href=" {% static 'website/images/fevicon.png' %} " type="image/gif" />
       <!-- Tweaks for older IEs-->
       <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css">
+      <link rel="icon" type="image/x-icon" href="{% static 'website/images/title_logo.jpeg' %}">
       <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
       <link rel="stylesheet" href=" {% static 'website/css/owl.carousel.min.css' %} ">
       <!--[if lt IE 9]>
@@ -78,11 +79,24 @@
                      </div>
                   </nav>
                </div>
+               {% if not request.user.is_authenticated %}
                <div class="col-md-2 d_none">
                   <ul class="email text_align_right">
-                     <li><a href=" {% static 'website/Javascript:void(0)' %} "><b>Login</b> <img src=" {% static 'website/images/use.png' %} " alt="#"/></a></li>
+                     <b> Welcome!</b>
+                     <li><a href="../login.html"><b>Login</b> <img src=" {% static 'website/images/use.png' %} " alt="#"/></a></li>
                  </ul>
                </div>
+
+               {% else %}
+
+               <div class="col-md-2 d_none">
+                  <ul class="email text_align_right">
+                     <h4> Welcome {{request.user}}</h4>
+                     <li><a href="/logout"><b>Logout</b> <img src=" {% static 'website/images/use.png' %} " alt="#"/></a></li>
+                 </ul>
+               </div>
+
+               {% endif %}
             </div>
          </div>
       </div>
@@ -94,7 +108,7 @@
                <div class="col-md-12">
                   <div class="titlepage text_align_center ">
                      <h2>OUR BLOG</h2>
-                     <p>majority have suffered alteration in some form, by injected humour, or randomised words 
+                     <p>Keeping Your fish Healthy: Avoiding Infections 
                      </p>
                   </div>
                </div>
@@ -106,16 +120,12 @@
                         <div class="col-lg-6 col-md-12">
                            <div class="blog_box" >
                               <div class="fer text_align_left">
-                                 <span>12 <br>march</span>
+                                 <span>#1</span>
                               </div>
                               <h3>Big River Feeder Fishing ...</h3>
                               <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you </p>
                               <strong>Post By  : Water Fish</strong>
-                              <ul>
-                                 <li><a href=" {% static 'website/Javascript:void(0)' %} ">Like <img src=" {% static 'website/images/li.png' %} " alt="#"/></a></li>
-                                 <li><a href=" {% static 'website/Javascript:void(0)' %} ">Comment <img src=" {% static 'website/images/com.png' %} " alt="#"/></a></li>
-                                 <li><a href=" {% static 'website/Javascript:void(0)' %} ">Share <img src=" {% static 'website/images/sh.png' %} " alt="#"/></a></li>
-                              </ul>
+
                            </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
@@ -132,16 +142,12 @@
                         <div class="col-lg-6 col-md-12">
                            <div class="blog_box" >
                               <div class="fer text_align_left">
-                                 <span>12 <br>march</span>
+                                 <span>#2</span>
                               </div>
                               <h3>Trent Barbel – Last Minute</h3>
                               <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you </p>
                               <strong>Post By  : Water Fish</strong>
-                              <ul>
-                                 <li><a href=" {% static 'website/Javascript:void(0)' %} ">Like <img src=" {% static 'website/images/li.png' %} " alt="#"/></a></li>
-                                 <li><a href=" {% static 'website/Javascript:void(0)' %} ">Comment <img src=" {% static 'website/images/com.png' %} " alt="#"/></a></li>
-                                 <li><a href=" {% static 'website/Javascript:void(0)' %} ">Share <img src=" {% static 'website/images/sh.png' %} " alt="#"/></a></li>
-                              </ul>
+
                            </div>
                         </div>
                         <div class="col-lg-6 col-md-12">
@@ -153,7 +159,76 @@
                   </div>
                </div>
                <div class="col-md-12">
-                  <a class="read_more" href=" {% static 'website/Javascript:void(0)' %} ">Read More</a>
+                  <div class="fist_sec">
+                     <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                           <div class="blog_box" >
+                              <div class="fer text_align_left">
+                                 <span>#3</span>
+                              </div>
+                              <h3>Ontario’s Growing Goldfish Problem</h3>
+                              <p>Knowing this is crucial not only for the conservation of native fish, but also for monitoring invasive species,” says Mandrak, who is collaborating with U of T professor Donald Jackson on the stormwater pond project. “You can then use that information to determine how to protect natural species and get rid of the invasive ones. </p>
+                              <strong>Post By  : Water Fish</strong>
+
+                           </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                           <div class="blog_img">
+                              <figure><img src=" {% static 'website/images/blog_fish3.jpg' %} " alt="#"/></figure>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-md-12">
+                  <div class="fist_sec">
+                     <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                           <div class="blog_box" >
+                              <div class="fer text_align_left">
+                                 <span>#4</span>
+                              </div>
+                              <h3>Poor Water Quality Harms Kois</h3>
+                              <p>A number of things can lead to unhealthy or unsafe water conditions for your koi fish. Too much ammonia or nitrite in the water, if the pH levels are too high or too low, and more can stress your koi and make them sick. </p>
+                              <strong>Post By  : Water Fish</strong>
+
+                           </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                           <div class="blog_img">
+                              <figure><img src=" {% static 'website/images/blog_fish4.jpg' %} " alt="#"/></figure>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-md-12">
+                  <div class="fist_sec">
+                     <div class="row">
+                        <div class="col-lg-6 col-md-12">
+                           <div class="blog_box" >
+                              <div class="fer text_align_left">
+                                 <span>#5</span>
+                              </div>
+                              <h3>Seahorses are heavily overfished</h3>
+                              <p>Our biggest worry, by far, is the effects of bottom trawling on seahorses and other marine life. Trawling involves dragging a large and heavily weighted net along the ocean floor, catching all marine life in its path while wrecking habitats. </p>
+                              <strong>Post By  : Water Fish</strong>
+
+                           </div>
+                        </div>
+                        <div class="col-lg-6 col-md-12">
+                           <div class="blog_img">
+                              <figure><img src=" {% static 'website/images/blog_fish5.jpg' %} " alt="#"/></figure>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <div class="col-md-12">
+                  <a class="read_more" href="#top">Read More</a>
                </div>
             </div>
          </div>
@@ -162,58 +237,7 @@
       <!--  footer -->
       <footer>
          <div class="footer">
-            <div class="container">
-               <div class="row">
-                  <div class="col-lg-3 col-md-6">
-                     <a class="logo_footer" href="index.html"><img src=" {% static 'website/images/logo_footer.png' %} " alt="#"/></a>
-                  </div>
-                  <div class="col-lg-3 col-md-6">
-                     <div class="headimg_fooh3">
-                        <h3>LATEST POST</h3>
-                        <p>Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem </p>
-                     </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6">
-                     <div class="headimg_fooh3">
-                        <h3>Opening time </h3>
-                        <ul class="opening">
-                           <li>Monday <span>1pm – 10pm</span></li>
-                           <li>Tuesday <span>1pm – 10pm</span></li>
-                           <li>Wednesday <span>1pm – Midnight</span></li>
-                           <li>Thursday  <span>1pm – 10pm</span></li>
-                           <li>Friday   <span>1pm – Midnight</span></li>
-                           <li>Suturday   <span>1pm – 10pm</span></li>
-                           <li>Suturday   <span>1pm – 10pm</span></li>
-                        </ul>
-                     </div>
-                  </div>
-                  <div class="col-lg-3 col-md-6">
-                     <div class="headimg_fooh3">
-                        <h3>Contact Us</h3>
-                        <ul class="conta">
-                           <li><i class="fa fa-phone" aria-hidden="true"></i>Call +01 1234567890</li>
-                           <li> <i class="fa fa-envelope" aria-hidden="true"></i><a href=" {% static 'website/Javascript:void(0)' %} "> demo@gmail.com</a></li>
-                        </ul>
-                        <ul class="social_icon text_align_left">
-                           <li><a href=" {% static 'website/Javascript:void(0)' %} "><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-                           <li><a href=" {% static 'website/Javascript:void(0)' %} "><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-                           <li><a href=" {% static 'website/Javascript:void(0)' %} "><i class="fa fa-linkedin" aria-hidden="true"></i></a></li>
-                           <li><a href=" {% static 'website/Javascript:void(0)' %} "><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
-                        </ul>
-                     </div>
-                  </div>
-               </div>
-            </div>
-            <div class="copyright">
-               <div class="container">
-                  <div class="row">
-                     <div class="col-md-12">
-                        <p>© 2022 All Rights Reserved. Design by <a href="https://html.design/"> Free html Templates</a></p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
+   
       </footer>
       <!-- end footer -->
       <!-- Javascript files-->

@@ -76,11 +76,11 @@ def handlesignup(request):
 
 
         if password != confirmpassword:
-            messages.danger(request,"Password is Incorrect!")
+            messages.warning(request,"Password is Incorrect!")
             return redirect('signup.html')
         
         try:
-            if User.objects.get(username== uname):
+            if User.objects.get("username")==uname:
                 return HttpResponse("Username is taken")
             
         except:
