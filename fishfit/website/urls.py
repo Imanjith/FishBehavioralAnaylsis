@@ -11,7 +11,7 @@ urlpatterns = [
     path('track', views.track, name="func"),
     path('fishs.html',views.fishs, name="fishs"),
     path('testimonial.html',views.testi, name="testimonial"),
-    path('sendMail', views.sendMail, name="sendMail")
-
+    path('login.html',views.handlelogin, name="handlelogin"),
+    path('signup.html', views.handlesignup, name="handlesignup")
 
 ]

@@ -44,6 +44,13 @@ def fishs(request):
 def testi(request):
     return render(request,'testimonial.html',{})
 
+def handlelogin(request):
+    return render(request,'login.html',{})
+
+def handlesignup(request):
+    return render(request,'signup.html',{})
+
+
 def sendMail(request,):
     if request.method == "POST":
         email = request.POST['email']
