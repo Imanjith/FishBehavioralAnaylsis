@@ -139,7 +139,6 @@ def track(request):
         messages.info(request,'Please input video file')
         return redirect("watch.html")
 
-    # messages.info(request,"Input Successful, your video is being processed")
         
     location = save_video(video_obj)
     # enhance_video(location)
@@ -255,7 +254,7 @@ def enhance_video(video_path):
 
     # Create VideoWriter object to save enhanced video
     fourcc = cv2.VideoWriter_fourcc(*'mp4v')
-    output = cv2.VideoWriter('enhanced_video.mp4', fourcc, fps, (width, height))
+    output = cv2.VideoWriter('media/video/video_ence.mp4', fourcc, fps, (width, height))
 
     # Process each frame of the video
     while True:
@@ -319,7 +318,7 @@ def split_video(input_video):
 
 
 def track_video(num):
-    model = YOLO("yolov8n.pt")
+    model = YOLO("media/best.pt")
     if os.path.isdir("media/movements"):
         shutil.rmtree("media/movements")
     os.mkdir("media/movements")
@@ -390,7 +389,7 @@ def track_video(num):
         
         if empty_frames>(total_frames/1.5):
             continue
-        plt.figure(figsize=(10, 5), facecolor="black")
+        plt.figure(figsize=(6, 2.5), facecolor="black")
         plt.axis('off')
         trajectories = list(track_history.values())
 
