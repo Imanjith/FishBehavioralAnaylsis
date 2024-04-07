@@ -9,6 +9,8 @@ As the aquaculture industry continues to expand, the importance of gaining insig
 
 At first the input video footage is enhanced in quality to help increase the accuracy and efficiency of the fish tracking process. Frames are read one by one and enhanced with the assistance of multi-scale retinex to enhance the quality. Afterwards the enhanced video is sent to the Object detection phase. 
 
+![image](https://github.com/Imanjith/FishBehavioralAnaylsis/assets/96326008/29225ee6-6b91-4106-8349-b114e87047aa)
+
 
 ## Object Detection
 
@@ -18,9 +20,16 @@ Object detection involves pinpointing and accurately localising specific objects
 
 Object tracking involves an algorithm tracking the movement and attempting to estimate or predict the trajectory of a certain object and other relevant information about the object in a video. This can be found used in detecting and tracking fish to gain an understanding on their health and well-being. The inbuilt tracker in the Yolov8 model known as the Bot-Sort tracker was utilized in this case. The accuracy is known to be one of the highest amongst other models hence was the model of choice for this process
 
+![image](https://github.com/Imanjith/FishBehavioralAnaylsis/assets/96326008/1ecd29f6-d266-474b-b5c5-b69d8ae526b2)
+
+
+
 ## Behavioural Analysis
 
 Finally we end with the most important phase, behavioural analysis. The system will be going to trace the behaviours(movements) of fishes and compare those tracked trajectories with the given sample data trajectories. After that the system will be going to predict whether the fish is healthy or sick by using tracked trajectories.
+
+![image](https://github.com/Imanjith/FishBehavioralAnaylsis/assets/96326008/809a0b05-ba0a-4643-8432-f467f00b0a08)
+
   
 
 
