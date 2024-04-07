@@ -78,11 +78,29 @@
                      </div>
                   </nav>
                </div>
+
+               {% if not request.user.is_authenticated %}
                <div class="col-md-2 d_none">
                   <ul class="email text_align_right">
+                     <b> Welcome!</b>
                      <li><a href="../login.html"><b>Login</b> <img src=" {% static 'website/images/use.png' %} " alt="#"/></a></li>
                  </ul>
                </div>
+
+               {% else %}
+
+               <div class="col-md-2 d_none">
+                  <ul class="email text_align_right">
+                     <h4> Welcome {{request.user}}</h4>
+                     <li><a href="/logout"><b>Logout</b> <img src=" {% static 'website/images/use.png' %} " alt="#"/></a></li>
+                 </ul>
+               </div>
+
+               {% endif %}
+
+
+
+
             </div>
          </div>
       </div>

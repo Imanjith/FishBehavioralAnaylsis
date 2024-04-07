@@ -152,12 +152,12 @@ iframe {
 /*//////////////////////////////////////////////////////////////////
 [ login ]*/
 
-/* .limiter {
-  width: 10%;
-  margin: 0;
-} */
+.limiter {
+  width: 100%;
+  margin: 0 auto;
+}
 
-.container-login100 {
+/* .container-login100 {
   width: 100%;  
   min-height: 70vh;
   display: -webkit-box;
@@ -174,6 +174,25 @@ iframe {
   background-position: center;
   background-size: cover;
   z-index: 1;  
+} */
+
+.redda{
+  width: 100%;  
+  min-height: 70vh;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+  z-index: 1; 
 }
 
 .container-login100::before {
@@ -390,7 +409,7 @@ iframe {
 }
 
 .input-checkbox100:checked + .label-checkbox100::before {
-  color: #00ff40;
+  color: #555555;
 }
 
 
@@ -406,6 +425,7 @@ iframe {
   flex-wrap: wrap;
   justify-content: center;
 }
+
 
 .login100-form-btn::before {
   content: "";

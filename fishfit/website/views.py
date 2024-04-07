@@ -19,7 +19,7 @@ from django.core.mail import send_mail
 from django.contrib.auth.models import User
 from django.shortcuts import render,HttpResponse
 from django.contrib import messages
-from django.contrib.auth import authenticate,login
+from django.contrib.auth import authenticate,login,logout
 
 
 model = YOLO("yolov8n.pt")
@@ -102,6 +102,12 @@ def handlesignup(request):
 
 
     return render(request,'signup.html',{})
+
+
+def handlelogout(request):
+    logout(request)
+    messages.info(request,"Logout success!")
+    return redirect("login.html")
 
 
 

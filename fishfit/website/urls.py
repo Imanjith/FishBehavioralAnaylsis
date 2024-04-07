@@ -12,6 +12,7 @@ urlpatterns = [
     path('fishs.html',views.fishs, name="fishs"),
     path('testimonial.html',views.testi, name="testimonial"),
     path('login.html',views.handlelogin, name="handlelogin"),
-    path('signup.html', views.handlesignup, name="handlesignup")
+    path('signup.html', views.handlesignup, name="handlesignup"),
+    path('logout',views.handlelogout, name="handlelogout")
 
 ]
