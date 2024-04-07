@@ -141,7 +141,7 @@ def track(request):
 
         
     location = save_video(video_obj)
-    # enhance_video(location)
+    enhance_video(location)
     clip = VideoFileClip(location)
     duration = clip.duration
     num_parts=0
