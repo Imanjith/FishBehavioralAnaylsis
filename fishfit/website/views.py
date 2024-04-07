@@ -3,6 +3,7 @@ from moviepy.editor import VideoFileClip
 from django.http import HttpResponse
 from django.conf import settings
 import os 
+import time
 from ultralytics import YOLO
 import cv2
 import numpy as np
@@ -12,6 +13,8 @@ import shutil
 from django.core.files.storage import default_storage
 from django.core.files.base import ContentFile
 from django.core.files.storage import FileSystemStorage
+from django.contrib import messages
+from django.shortcuts import redirect
 from collections import defaultdict
 import matplotlib.pyplot as plt
 from tensorflow.keras import layers, models
@@ -22,8 +25,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 
 
-model = YOLO("yolov8n.pt")
-
+ 
 
 def home(request):
     return render(request,'index.html',{})
@@ -131,16 +133,24 @@ def sendMail(request,):
 
 
 def track(request):
-    # video_obj = request.FILES['horses']
-    # location = save_video(video_obj)
+    try:
+        video_obj = request.FILES['footage']
+    except:
+        messages.info(request,'Please input video file')
+        return redirect("watch.html")
+
+    # messages.info(request,"Input Successful, your video is being processed")
+        
+    location = save_video(video_obj)
     # enhance_video(location)
-    # clip = VideoFileClip(location)
-    # duration = clip.duration
-    # num_parts=0
-    # if duration>10:
-    #     num_parts = split_video(location)
-    # track_video(num_parts)
-    results = analyse()
+    clip = VideoFileClip(location)
+    duration = clip.duration
+    num_parts=0
+    clip.close()
+    if duration>10:
+        num_parts = split_video(location)
+    tracks = track_video(num_parts)
+    results = analyse(tracks)
     return render(request, "results.html", {'price': results})
     
     
@@ -284,40 +294,41 @@ def split_video(input_video):
     os.mkdir(output_directory)
     end_time = 0
     i=0
-    clip = VideoFileClip(input_video)
-    duration = clip.duration
-    num_parts = int(duration // 10)
-    print (duration)
-    i=0
-    for i in range(num_parts):
-        start_time = i * 10
-        end_time = (i + 1) * 10
-        output_path = f"{output_directory}/seg_{i + 1}.mp4"
-        segNum = "seg_" + str(i+1) + ".mp4"
-        part_clip = clip.subclip(start_time, end_time)
-        part_clip_without_audio = part_clip.without_audio()  # Remove audio
-        part_clip_without_audio.write_videofile(output_path)
-        part_clip.close()
-    if end_time<duration:
-        output_path = f"{output_directory}/seg_{i + 2}.mp4"
-        part_clip = clip.subclip(end_time, duration)
-        part_clip_without_audio = part_clip.without_audio()  # Remove audio
-        part_clip_without_audio.write_videofile(output_path)
-        part_clip.close()
-        
+    with VideoFileClip(input_video) as clip:
+        duration = clip.duration
+        num_parts = int(duration // 10)
+        for i in range(num_parts):
+            start_time = i * 10
+            end_time = (i + 1) * 10
+            output_path = f"{output_directory}/seg_{i + 1}.mp4"
+            with clip.subclip(start_time, end_time) as part_clip:
+                with part_clip.without_audio() as part_clip_without_audio:
+                    part_clip_without_audio.write_videofile(output_path)
+
+        if end_time < duration:
+            output_path = f"{output_directory}/seg_{i + 2}.mp4"
+            with clip.subclip(end_time, duration) as part_clip:
+                with part_clip.without_audio() as part_clip_without_audio:
+                    part_clip_without_audio.write_videofile(output_path)
+                    
     shutil.rmtree("media/video")
+
     return num_parts
 
 
 
-def track_video(num):
-    os.mkdir("media/movements")
 
+def track_video(num):
+    model = YOLO("yolov8n.pt")
+    if os.path.isdir("media/movements"):
+        shutil.rmtree("media/movements")
+    os.mkdir("media/movements")
     for j in range(num + 1):
         track_history = defaultdict(lambda: [])
         complete_tracks = defaultdict(list)
         cap = cv2.VideoCapture(f"media/segments/seg_{j+1}.mp4")
-
+        total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
+        empty_frames = 0
     
         while cap.isOpened():
             # Read a frame from the video
@@ -327,33 +338,38 @@ def track_video(num):
                 
                 # Run YOLOv8 tracking on the frame, persisting tracks between frames
                 results = model.track(frame, persist=True)
-
-                # Get the boxes and track IDs
-                boxes = results[0].boxes.xywh.cpu()
-                # track_ids = results[0].boxes.id.cpu().numpy().astype(int)
-                track_ids = results[0].boxes.id.int().cpu().tolist()
-
-
-                # Visualize the results on the frame
-                annotated_frame = results[0].plot()
-
-                # Plot the tracks
-                for box, track_id in zip(boxes, track_ids):
-                    x, y, w, h = box
-                    track = track_history[track_id]
-                    track.append((float(x), float(y)))  # x, y center point
-                    if len(track) > 30:  # retain 90 tracks for 90 frames
-                        track.pop(0)
-
-                    # Draw the tracking lines
-                    points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
-                    cv2.polylines(annotated_frame, [points], isClosed=False, color=(230, 230, 230), thickness=5)
+                
+                if results[0].boxes.id==None:
                     
-                for track_id, track in track_history.items():
-                    complete_tracks[track_id].extend(track)
+
+                    # Get the boxes and track IDs
+                    boxes = results[0].boxes.xywh.cpu()
+                    track_ids = results[0].boxes.id.int().cpu().tolist()
+
+
+                    # Visualize the results on the frame
+                    annotated_frame = results[0].plot()
+
+                    # Plot the tracks
+                    for box, track_id in zip(boxes, track_ids):
+                        x, y, w, h = box
+                        track = track_history[track_id]
+                        track.append((float(x), float(y)))  # x, y center point
+                        if len(track) > 30:  # retain 90 tracks for 90 frames
+                            track.pop(0)
+
+                        # Draw the tracking lines
+                        points = np.hstack(track).astype(np.int32).reshape((-1, 1, 2))
+                        cv2.polylines(annotated_frame, [points], isClosed=False, color=(230, 230, 230), thickness=5)
+                        
+                    for track_id, track in track_history.items():
+                        complete_tracks[track_id].extend(track)
 
                 # Display the annotated frame
-                cv2.imshow("YOLOv8 Tracking", annotated_frame)
+                    cv2.imshow("YOLOv8 Tracking", annotated_frame)
+                else: 
+                    empty_frames+=1
+                    continue
 
                 # Break the loop if 'q' is pressed
                 if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -365,7 +381,8 @@ def track_video(num):
         cap.release()
         cv2.destroyAllWindows()
         
-        
+        if empty_frames>(total_frames/1.5):
+            continue
         plt.figure(figsize=(10, 6), facecolor="black")
         plt.axis('off')
         trajectories = list(track_history.values())
@@ -377,7 +394,7 @@ def track_video(num):
         plt.title("Object Trajectories")
         plt.savefig(f"media/movements/seg_{j+1}.png")
         
-        return num
+    return num
 
 
         
@@ -388,6 +405,7 @@ def track_video(num):
 def analyse(num=4):
     normal_count = 0
     abnormal_count = 0
+    non_detected_count = 0
     
     for j in range(num + 1):
         image_height, image_width = 64, 64
@@ -400,7 +418,7 @@ def analyse(num=4):
 
         # Check if the image is loaded successfully
         if image is None:
-            print(f"Failed to load {sample_image}")
+            non_detected_count+=1
         else:
             # Resize the image
             image = cv2.resize(image, (image_height, image_width))
@@ -427,7 +445,7 @@ def analyse(num=4):
                     normal_count+=1
                     
                     
-    results = [abnormal_count,normal_count]
+    results = [abnormal_count,normal_count,non_detected_count]
     print(results)
     return results
 

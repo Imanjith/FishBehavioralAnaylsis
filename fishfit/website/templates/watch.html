@@ -103,12 +103,16 @@
                      {% comment %} <a class="read_more" href="about.html">Enter Video</a> {% endcomment %}
                      {% comment %} <a href="upload"><button> Greetings </button></a>
                      <br> {% endcomment %}
-                     <form action="track" method="post" enctype="multipart/form-data">
+                     <form action="track" method="post" enctype="multipart/form-data" class="p-20">
                         {% csrf_token %}
-                        <input type="file" id="video-input" name="horses" accept=".mp4">
-                        <input type="submit">
+                        <input type="file" id="video-input" name="footage" accept=".mp4" class="p-2" >
+                        <input type="submit" class="read_more">
                     </form>
-                    
+                    <div class="p-2">
+                      {% for message in messages%}
+                      <h4> {{message}} </h4>
+                      {% endfor %}
+                    </div>
 
 
                   </div>
